@@ -20,6 +20,7 @@ Tech
 * Java 1.7
 * Websockets
 * RESTful Web Services mit JAX-RS
+* Maven Build Tool
 
 Installation
 --------------
