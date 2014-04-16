@@ -3,7 +3,9 @@ package de.fhb.dassystem.service;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -37,7 +39,6 @@ public class WebController {
 		return message;
 	}
 
-
 	@POST
 	@Path("/login")
 	@Produces("application/json")
@@ -54,14 +55,20 @@ public class WebController {
 
 			if (user.getPassword().equals(password)) {
 				System.out.println("second");
+
+				
+				// set Cookie
+				servletResponse
+						.addCookie(new Cookie("ACCESS", "AUTHENTICATED"));
+				servletResponse.addCookie(new Cookie("EMAIL", email));
 				servletResponse
 						.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/success.jsp");
 
-				// set Cookie or login flag to session
+				
 			}
 
 		} else {
-			
+			servletResponse.addCookie(new Cookie("ACCESS", "REJECTED"));
 			servletResponse
 					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/login.jsp");
 		}
