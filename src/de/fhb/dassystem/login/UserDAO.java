@@ -46,20 +46,20 @@ public class UserDAO extends JdbcDAOBase  {
 		
 	}
 
-	public List<User> findByName(String name) {
+	public List<User> findByEmail(String email) {
 		List<User> vos;
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		String sqlStr = "Select * FROM user WHERE username = ?";
+		String sqlStr = "Select * FROM user WHERE email = ?";
 
 		try {
 			System.out.println("before Connection");
 			con = getConnection();
 			System.out.println("after Connection");
 			ps = con.prepareStatement(sqlStr);
-			ps.setString(1, name);
+			ps.setString(1, email);
 			System.out.println("Statement");
 			rs = ps.executeQuery();
 			System.out.println("Query");
@@ -120,7 +120,7 @@ public class UserDAO extends JdbcDAOBase  {
 	protected Object map2VO(ResultSet rs) throws SQLException {
 		User user = new User();
 		user.setPassword(rs.getString("password"));
-		user.setUsername(rs.getString("username"));
+		user.setEmail(rs.getString("email"));
 		return user;
 	}
 	

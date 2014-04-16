@@ -21,7 +21,7 @@ public abstract class JdbcDAOBase {
 
 	public JdbcDAOBase() {
 		// muss ausgetauscht werden
-		this("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/DAS-SYSTEM", "root", "");
+		this("com.mysql.jdbc.Driver", "jdbc:mysql://localhost/dassystem", "root", "");
 	}
 
 	protected Connection getConnection() throws DataAccessException {
