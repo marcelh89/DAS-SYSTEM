@@ -1,4 +1,4 @@
-package de.fhb.model;
+package de.fhb.dassystem.login;
 
 public class Dozent extends Benutzer {
 

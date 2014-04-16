@@ -1,6 +1,6 @@
 //This sample is how to use websocket of Tomcat7.0.52.
 //web.xml is not required. Because you can use Servlet3.0 Annotation.
-package de.fhb.action;
+package de.fhb.dassystem.chat;
  
 import java.io.IOException;
 import java.util.ArrayList;
