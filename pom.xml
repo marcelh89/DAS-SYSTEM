@@ -18,6 +18,7 @@
 
 	<dependencies>
 
+	    <!-- Jersey WS -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-bundle</artifactId>
@@ -29,6 +30,14 @@
 			<groupId>asm</groupId>
 			<artifactId>asm</artifactId>
 			<version>3.3.1</version>
+		</dependency>
+
+
+		<!-- JDBC -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.30</version>
 		</dependency>
 
 
