@@ -2,6 +2,7 @@ package de.fhb.dassystem.service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.view.Viewable;
+
+import de.fhb.dassystem.login.User;
+import de.fhb.dassystem.login.UserDAO;
 
 /**
  * @author Dinesh Rajput
@@ -99,13 +103,24 @@ public class WebController {
 	public void login(@Context HttpServletResponse servletResponse,
 			@FormParam("email") String email,
 			@FormParam("passwd") String password) throws IOException {
-		
-		
-		if (email.equals("test123@test.de") && password.equals("123")) {
-			servletResponse
-					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/success.jsp");
+
+		UserDAO userdao = new UserDAO();
+		List<User> users = userdao.findByEmail(email);
+
+		if (!users.isEmpty()) {
+			System.out.println("first");
+			User user = users.get(0);
+
+			if (user.getPassword().equals(password)) {
+				System.out.println("second");
+				servletResponse
+						.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/success.jsp");
+
+				// set Cookie or login flag to session
+			}
 
 		} else {
+			
 			servletResponse
 					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/login.jsp");
 		}
