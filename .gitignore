@@ -70,5 +70,10 @@ local.properties
 # PDT-specific
 .buildpath
 
-temp files of linux
+#temp files of linux
 .*~
+
+#intellijfiles
+idea
+*.iml
+
