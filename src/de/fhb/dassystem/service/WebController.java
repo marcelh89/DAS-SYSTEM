@@ -45,18 +45,19 @@ public class WebController {
 	public void login(@Context HttpServletResponse servletResponse,
 			@FormParam("email") String email,
 			@FormParam("passwd") String password) throws IOException {
+		
+		System.out.println(email);
+		System.out.println(password);
 
 		UserDAO userdao = new UserDAO();
 		List<User> users = userdao.findByEmail(email);
 
 		if (!users.isEmpty()) {
-			System.out.println("first");
 			User user = users.get(0);
-
+			System.out.println("eins");
 			if (user.getPassword().equals(password)) {
-				System.out.println("second");
+				System.out.println("zwei");
 
-				
 				// set Cookie
 				servletResponse
 						.addCookie(new Cookie("ACCESS", "AUTHENTICATED"));
@@ -64,13 +65,44 @@ public class WebController {
 				servletResponse
 						.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/success.jsp");
 
-				
 			}
 
 		} else {
+			System.out.println("fail");
 			servletResponse.addCookie(new Cookie("ACCESS", "REJECTED"));
 			servletResponse
 					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/login.jsp");
+		}
+	}
+
+	@POST
+	@Path("/registration")
+	@Produces("application/json")
+	public void registration(@Context HttpServletResponse servletResponse,
+			@FormParam("forename") String forename,
+			@FormParam("surname") String surname,
+			@FormParam("email") String email,
+			@FormParam("passwd") String password,
+			@FormParam("passwd_wdh") String passwordWdh) throws IOException {
+
+		UserDAO userdao = new UserDAO();
+		List<User> users = userdao.findByEmail(email);
+
+		boolean passwordEqual = password.equals(passwordWdh);
+		boolean userExists = !users.isEmpty();
+		
+		System.out.println(passwordEqual);
+		System.out.println(userExists);
+
+		// Passwörter stimmen nicht überein
+		if (!passwordEqual || userExists) {
+			servletResponse
+					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/registration.jsp");
+		} else {
+
+			servletResponse
+					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/login.jsp");
+
 		}
 	}
 

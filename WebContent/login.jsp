@@ -15,5 +15,13 @@
 <input type="submit" value="Login" />
 </form>
 
+</hr>
+
+<form method="post" action="http://localhost:8080/DAS-SYSTEM-SERVER/doj/webservice/login">
+<p>Email: <input type="email" name="email" id="email" value="marcelh89@googlemail.com" /></p>
+<p>Passwd: <input type="password" name="passwd" value="123"/></p>
+<input type="submit" value="Login" />
+</form>
+
 </body>
 </html>
