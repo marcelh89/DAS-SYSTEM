@@ -91,15 +91,16 @@ public class WebController {
 		boolean passwordEqual = password.equals(passwordWdh);
 		boolean userExists = !users.isEmpty();
 		
-		System.out.println(passwordEqual);
-		System.out.println(userExists);
-
-		// Passwörter stimmen nicht überein
 		if (!passwordEqual || userExists) {
 			servletResponse
 					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/registration.jsp");
 		} else {
 
+			//create new User in DB
+			User user = new User(forename, surname, email, password);
+			 
+			userdao.create(user);
+			
 			servletResponse
 					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/login.jsp");
 
