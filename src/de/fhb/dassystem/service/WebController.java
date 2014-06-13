@@ -14,8 +14,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import de.fhb.dassystem.login.User;
-import de.fhb.dassystem.login.UserDAO;
+import de.fhb.dassystem.db.dao.UserDAO;
+import de.fhb.dassystem.db.entity.User;
 
 /**
  * @author Marcel Hinderlich
@@ -75,36 +75,36 @@ public class WebController {
 		}
 	}
 
-	@POST
-	@Path("/registration")
-	@Produces("application/json")
-	public void registration(@Context HttpServletResponse servletResponse,
-			@FormParam("forename") String forename,
-			@FormParam("surname") String surname,
-			@FormParam("email") String email,
-			@FormParam("passwd") String password,
-			@FormParam("passwd_wdh") String passwordWdh) throws IOException {
-
-		UserDAO userdao = new UserDAO();
-		List<User> users = userdao.findByEmail(email);
-
-		boolean passwordEqual = password.equals(passwordWdh);
-		boolean userExists = !users.isEmpty();
-		
-		if (!passwordEqual || userExists) {
-			servletResponse
-					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/registration.jsp");
-		} else {
-
-			//create new User in DB
-			User user = new User(forename, surname, email, password);
-			 
-			userdao.create(user);
-			
-			servletResponse
-					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/login.jsp");
-
-		}
-	}
+//	@POST
+//	@Path("/registration")
+//	@Produces("application/json")
+//	public void registration(@Context HttpServletResponse servletResponse,
+//			@FormParam("forename") String forename,
+//			@FormParam("surname") String surname,
+//			@FormParam("email") String email,
+//			@FormParam("passwd") String password,
+//			@FormParam("passwd_wdh") String passwordWdh) throws IOException {
+//
+//		UserDAO userdao = new UserDAO();
+//		List<User> users = userdao.findByEmail(email);
+//
+//		boolean passwordEqual = password.equals(passwordWdh);
+//		boolean userExists = !users.isEmpty();
+//		
+//		if (!passwordEqual || userExists) {
+//			servletResponse
+//					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/registration.jsp");
+//		} else {
+//
+//			//create new User in DB
+//			User user = new User(forename, surname, email, password);
+//			 
+//			userdao.create(user);
+//			
+//			servletResponse
+//					.sendRedirect("http://localhost:8080/DAS-SYSTEM-SERVER/login.jsp");
+//
+//		}
+//	}
 
 }

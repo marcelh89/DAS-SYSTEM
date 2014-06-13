@@ -1,4 +1,4 @@
-package de.fhb.dassystem.login;
+package de.fhb.dassystem.db.dao.exception;
 
 public class DataAccessException extends RuntimeException{
 

@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `surname` text NOT NULL,
   `password` text NOT NULL,
   `birthdate` date NOT NULL,
+  `dozent` boolean NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -21,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`) VALUES
-(1, 'marcelh89@googlemail.com', 'Marcel', 'Hinderlich', '123', '1989-11-10');
+INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
+(1, 'marcelh89@googlemail.com', 'Marcel', 'Hinderlich', '123', '1989-11-10', false);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

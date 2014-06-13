@@ -1,4 +1,4 @@
-package de.fhb.dassystem.login;
+package de.fhb.dassystem.db.dao.base;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
+import de.fhb.dassystem.db.dao.exception.DataAccessException;
 
 public abstract class JdbcDAOBase {
 	protected String	driverName;

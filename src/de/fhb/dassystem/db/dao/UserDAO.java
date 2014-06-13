@@ -1,11 +1,16 @@
-package de.fhb.dassystem.login;
+package de.fhb.dassystem.db.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
+
+import de.fhb.dassystem.db.dao.base.JdbcDAOBase;
+import de.fhb.dassystem.db.dao.exception.DataAccessException;
+import de.fhb.dassystem.db.entity.User;
 
 public class UserDAO extends JdbcDAOBase {
 	protected static Logger logger = Logger.getLogger(UserDAO.class.getName());
@@ -51,6 +56,7 @@ public class UserDAO extends JdbcDAOBase {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
+		System.out.println("findByEmail("+email+")");
 		String sqlStr = "Select * FROM user WHERE email = ?";
 
 		try {
@@ -125,8 +131,7 @@ public class UserDAO extends JdbcDAOBase {
 		Connection con = null;
 		PreparedStatement ps = null;
 
-		String sqlStr = "INSERT INTO `user`(`email`, `forename`, `surname`, `password`) VALUES (?,?,?,?)";
-		;
+		String sqlStr = "INSERT INTO `user`(`email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES (?,?,?,?,?,?)";
 
 		try {
 			System.out.println("before Connection");
@@ -137,6 +142,9 @@ public class UserDAO extends JdbcDAOBase {
 			ps.setString(2, user.getForename());
 			ps.setString(3, user.getSurname());
 			ps.setString(4, user.getPassword());
+			Date sqlDate = new Date(user.getBirthDate().getTime());
+			ps.setDate(5, sqlDate);
+			ps.setBoolean(6, user.isDozent());
 			System.out.println("Statement");
 			ps.executeUpdate();
 			System.out.println("Query");
@@ -159,8 +167,12 @@ public class UserDAO extends JdbcDAOBase {
 	@Override
 	protected Object map2VO(ResultSet rs) throws SQLException {
 		User user = new User();
+		user.setBirthDate(rs.getDate("birthdate"));
 		user.setPassword(rs.getString("password"));
 		user.setEmail(rs.getString("email"));
+		user.setId(rs.getInt("id"));
+		user.setForename(rs.getString("forename"));
+		user.setSurname(rs.getString("surname"));
 		return user;
 	}
 
