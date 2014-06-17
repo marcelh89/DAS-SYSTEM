@@ -22,5 +22,16 @@
     <servlet-name>Resteasy</servlet-name>
     <url-pattern>/dassystem/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+      <display-name></display-name>
+      <servlet-name>JSONServlet</servlet-name>
+      <servlet-class>de.fhb.dassystem.login.JsonLoginTester</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+      <servlet-name>JSONServlet</servlet-name>
+      <url-pattern>/JsonServlet</url-pattern>
+  </servlet-mapping>
 
 </web-app>
