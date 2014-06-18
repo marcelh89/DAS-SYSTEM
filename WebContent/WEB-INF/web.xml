@@ -26,7 +26,7 @@
   <servlet>
       <display-name></display-name>
       <servlet-name>JSONServlet</servlet-name>
-      <servlet-class>de.fhb.dassystem.login.JsonLoginTester</servlet-class>
+      <servlet-class>de.fhb.dassystem.login.JsonLoginTestServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
