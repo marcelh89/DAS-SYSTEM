@@ -72,12 +72,7 @@ public class WsChat {
 
 		// }
 
-		if (chatMessage.getMessage() == "CONNECT") {
-			log.info("new user logged in CONNECT");
-			sendMessageToAllInRoom(chatMessage);
-		} else {
-			sendMessageToAllInRoom(chatMessage);
-		}
+		sendMessageToAllInRoom(chatMessage);
 
 	}
 
