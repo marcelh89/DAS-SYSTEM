@@ -28,6 +28,9 @@ public class WsChat {
 
 	private Session currentSession;
 
+	private String currentUserName;
+	private String currentRoom;
+
 	public WsChat() {
 		System.out.println("Constructed!");
 	}
@@ -37,32 +40,43 @@ public class WsChat {
 		log.info("session openend and bound to room: " + room);
 		session.getUserProperties().put("room", room);
 		conns.add(session);
+
+		// set current user and room
+		this.currentUserName = (String) session.getUserProperties().get("name");
+		this.currentRoom = (String) session.getUserProperties().get("room");
+
 		this.currentSession = session;
+
 	}
 
 	@OnMessage
 	public void onMessage(final Session session, final ChatMessage chatMessage) {
 
 		System.out.println("Received: " + chatMessage.toString());
-		if (!nickNames.containsKey(currentSession)) {
-			// No nickname has been assigned by now
-			// the first message is the nickname
-			// escape the " character first
-			// message = message.replace("\"", "\\\"");
+		// if (!nickNames.containsKey(currentSession)) {
+		// // No nickname has been assigned by now
+		// // the first message is the nickname
+		// // escape the " character first
+		// // message = message.replace("\"", "\\\"");
+		//
+		// // broadcast all the nicknames to him
+		// for (String nick : nickNames.values())
+		// sendMessageToAllInRoom(new ChatMessage("addUser" + nick));
+		//
+		// // Register the nickname with the
+		// nickNames.put(currentSession, chatMessage.getMessage());
+		//
+		// sendMessageToAllInRoom(chatMessage);
+		//
+		// } else {
 
-			// broadcast all the nicknames to him
-			for (String nick : nickNames.values())
-				sendMessageToAllInRoom(new ChatMessage("addUser" + nick));
+		// }
 
-			// Register the nickname with the
-			nickNames.put(currentSession, chatMessage.getMessage());
-
+		if (chatMessage.getMessage() == "CONNECT") {
+			log.info("new user logged in CONNECT");
 			sendMessageToAllInRoom(chatMessage);
-
 		} else {
-
 			sendMessageToAllInRoom(chatMessage);
-
 		}
 
 	}
@@ -93,16 +107,6 @@ public class WsChat {
 		String messageToSend = "{\"removeUser\":\"" + username + "\"}";
 		sendMessageToAllInRoom(new ChatMessage(messageToSend));
 	}
-
-	// private void sendMessageToAll(String message) {
-	// for (Session sock : conns) {
-	// try {
-	// sock.getBasicRemote().sendText(message);
-	// } catch (IOException ex) {
-	// ex.printStackTrace();
-	// }
-	// }
-	// }
 
 	private void sendMessageToAllInRoom(ChatMessage message) {
 		String room = (String) currentSession.getUserProperties().get("room");
