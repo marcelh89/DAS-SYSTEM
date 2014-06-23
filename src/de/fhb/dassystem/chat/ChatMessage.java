@@ -7,6 +7,16 @@ public class ChatMessage {
 	private String sender;
 	private Date received;
 
+	public ChatMessage(String msg) {
+		this.message = msg;
+	}
+
+	public ChatMessage() {
+		this.message = "";
+		this.sender = "";
+		this.received = new Date();
+	}
+
 	public final String getMessage() {
 		return message;
 	}

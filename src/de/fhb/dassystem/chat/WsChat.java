@@ -42,17 +42,29 @@ public class WsChat {
 
 	@OnMessage
 	public void onMessage(final Session session, final ChatMessage chatMessage) {
-		String room = (String) session.getUserProperties().get("room");
-		try {
-			for (Session s : session.getOpenSessions()) {
-				if (s.isOpen()
-						&& room.equals(s.getUserProperties().get("room"))) {
-					s.getBasicRemote().sendObject(chatMessage);
-				}
-			}
-		} catch (IOException | EncodeException e) {
-			log.log(Level.WARNING, "onMessage failed", e);
+
+		System.out.println("Received: " + chatMessage.toString());
+		if (!nickNames.containsKey(currentSession)) {
+			// No nickname has been assigned by now
+			// the first message is the nickname
+			// escape the " character first
+			// message = message.replace("\"", "\\\"");
+
+			// broadcast all the nicknames to him
+			for (String nick : nickNames.values())
+				sendMessageToAllInRoom(new ChatMessage("addUser" + nick));
+
+			// Register the nickname with the
+			nickNames.put(currentSession, chatMessage.getMessage());
+
+			sendMessageToAllInRoom(chatMessage);
+
+		} else {
+
+			sendMessageToAllInRoom(chatMessage);
+
 		}
+
 	}
 
 	@OnClose
@@ -79,17 +91,30 @@ public class WsChat {
 
 	private void removeUser(String username) {
 		String messageToSend = "{\"removeUser\":\"" + username + "\"}";
-		sendMessageToAll(messageToSend);
-
+		sendMessageToAllInRoom(new ChatMessage(messageToSend));
 	}
 
-	private void sendMessageToAll(String message) {
-		for (Session sock : conns) {
-			try {
-				sock.getBasicRemote().sendText(message);
-			} catch (IOException ex) {
-				ex.printStackTrace();
+	// private void sendMessageToAll(String message) {
+	// for (Session sock : conns) {
+	// try {
+	// sock.getBasicRemote().sendText(message);
+	// } catch (IOException ex) {
+	// ex.printStackTrace();
+	// }
+	// }
+	// }
+
+	private void sendMessageToAllInRoom(ChatMessage message) {
+		String room = (String) currentSession.getUserProperties().get("room");
+		try {
+			for (Session s : conns) {
+				if (s.isOpen()
+						&& room.equals(s.getUserProperties().get("room"))) {
+					s.getBasicRemote().sendObject(message);
+				}
 			}
+		} catch (IOException | EncodeException e) {
+			log.log(Level.WARNING, "onMessage failed", e);
 		}
 	}
 
