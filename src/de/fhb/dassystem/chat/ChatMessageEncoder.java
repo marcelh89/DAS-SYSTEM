@@ -20,7 +20,7 @@ public class ChatMessageEncoder implements Encoder.Text<ChatMessage> {
 		JSONObject obj = new JSONObject();
 		obj.append("message", chatMessage.getMessage());
 		obj.append("sender", chatMessage.getSender());
-		obj.append("sender", chatMessage.getSender());
+		obj.append("received", chatMessage.getReceived());
 
 		return obj.toString();
 	}
