@@ -14,8 +14,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
-import de.fhb.dassystem.db.dao.UserDAO;
-import de.fhb.dassystem.db.entity.User;
+import de.fhb.dassystem.db.dao.UserDAO_JDBC;
+import de.fhb.dassystem.db.entity.User_old;
 
 /**
  * @author Marcel Hinderlich
@@ -49,11 +49,11 @@ public class WebController {
 		System.out.println(email);
 		System.out.println(password);
 
-		UserDAO userdao = new UserDAO();
-		List<User> users = userdao.findByEmail(email);
+		UserDAO_JDBC userdao = new UserDAO_JDBC();
+		List<User_old> users = userdao.findByEmail(email);
 
 		if (!users.isEmpty()) {
-			User user = users.get(0);
+			User_old user = users.get(0);
 			System.out.println("eins");
 			if (user.getPassword().equals(password)) {
 				System.out.println("zwei");

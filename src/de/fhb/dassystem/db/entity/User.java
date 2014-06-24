@@ -1,46 +1,49 @@
 package de.fhb.dassystem.db.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "user")
 public class User implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5427760379791471498L;
-	private int id;
-	private String forename, surname, email, password;
+	private static final long serialVersionUID = -282126619116500134L;
+	@Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+	private Integer uid;
+	@Column(name="email")
+	private String email;
+	@Column(name="forename")
+	private String forename;
+	@Column(name="surname")
+	private String surname;
+	@Column(name="password")
+	private String password;
+	@Column(name="birthdate")
 	private Date birthDate;
+	@Column(name="dozent")
 	private boolean dozent;
-
-	// registration
-	public User(int id, String forename, String surname, String email, String password, Date birthDate, boolean dozent) {
-		this.email = email;
-		this.password = password;
-		this.forename = forename;
-		this.surname = surname;
-		this.setBirthDate(birthDate);
-		this.setId(id);
-		this.setDozent(dozent);
-	}
-	
-	public User( String forename, String surname, String email, String password, Date birthDate, boolean dozent) {
-		this.email = email;
-		this.password = password;
-		this.forename = forename;
-		this.surname = surname;
-		this.setBirthDate(birthDate);
-		this.setDozent(dozent);
-	}
-
-	// Login
-	public User(String email, String password) {
-		this.email = email;
-		this.password = password;
-	}
 
 	public User() {
 
+	}
+
+	public Integer getUid() {
+		return uid;
+	}
+
+	public void setUid(Integer uid) {
+		this.uid = uid;
 	}
 
 	public String getEmail() {
@@ -49,14 +52,6 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getForename() {
@@ -75,6 +70,14 @@ public class User implements Serializable {
 		this.surname = surname;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -82,15 +85,6 @@ public class User implements Serializable {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 
 	public boolean isDozent() {
 		return dozent;
@@ -102,17 +96,11 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", forename=" + forename + ", surname="
-				+ surname + ", email=" + email + ", password=" + password
+		return "User [uid=" + uid + ", email=" + email + ", forename="
+				+ forename + ", surname=" + surname + ", password=" + password
 				+ ", birthDate=" + birthDate + ", dozent=" + dozent + "]";
 	}
+
 	
-	public boolean equals(User u){
-		if(u.getId()==this.id){
-			return true;
-		}else{
-			return false;
-		}
-	}
 	
 }

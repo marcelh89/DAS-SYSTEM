@@ -25,7 +25,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import de.fhb.dassystem.db.entity.User;
+import de.fhb.dassystem.db.entity.User_old;
 
 public class JsonLoginTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

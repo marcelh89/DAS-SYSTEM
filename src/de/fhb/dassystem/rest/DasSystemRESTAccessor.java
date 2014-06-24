@@ -10,28 +10,34 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
+import org.hibernate.Session;
 
-import de.fhb.dassystem.db.dao.UserDAO;
-import de.fhb.dassystem.db.entity.User;
+
+import de.fhb.dassystem.db.dao.UserDAO_JDBC;
+import de.fhb.dassystem.db.dao.VorlesungWochentagDAO;
+import de.fhb.dassystem.db.entity.User_old;
+import de.fhb.dassystem.db.entity.VorlesungWochentag;
+import de.fhb.dassystem.login.HibernateUtil;
 
 public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	
 	private final static Logger LOGGER = Logger.getLogger(DasSystemRESTAccessor.class.getName()); 
-	private UserDAO ud = new UserDAO();
+	private UserDAO_JDBC ud = new UserDAO_JDBC();
+	private static Session hibSession = HibernateUtil.getSessionFactory().openSession();
 	
 	@GET
 	@Path("/hi")
-	public User halloWelt(){
-		return new User("hallo", "du", "da", "pilz", new Date(), false);
+	public User_old halloWelt(){
+		return new User_old("hallo", "du", "da", "pilz", new Date(), false);
 	}
 	
 	@Override
 	@POST
 	@Path("/login")
-	public User login(User user) {
+	public User_old login(User_old user) {
 		System.out.println("RESTAccessor.login| email:"+user.getEmail()+" passwort:"+user.getPassword());
-		List<User> users = ud.findByEmail(user.getEmail());
-		for(User u : users){
+		List<User_old> users = ud.findByEmail(user.getEmail());
+		for(User_old u : users){
 			if(u.getEmail().equals(user.getEmail()) && u.getPassword().equals(user.getPassword())){
 				return u;
 			}
@@ -42,9 +48,9 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	@Override
 	@POST
 	@Path("/register")
-	public boolean register(User user) {
-		List<User> listUser = ud.getall();
-		for(User u: listUser){
+	public boolean register(User_old user) {
+		List<User_old> listUser = ud.getall();
+		for(User_old u: listUser){
 			if(u.getEmail().equals(user.getEmail())){
 				return false;
 			}
@@ -60,5 +66,13 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 //		}
 		ud.create(user);
 		return true;
+	}
+
+	@Override
+	@GET
+	@Path("/vorlesung/all")
+	public List<VorlesungWochentag> getVorlesung() {
+		VorlesungWochentagDAO dao = new VorlesungWochentagDAO(hibSession);
+		return dao.findAll();
 	}
 }
