@@ -33,6 +33,9 @@ public class User implements Serializable {
 	private Date birthDate;
 	@Column(name="dozent")
 	private boolean dozent;
+	@Column(name="lastlocation")
+	private String lastLocation;
+
 
 	public User() {
 
@@ -94,13 +97,20 @@ public class User implements Serializable {
 		this.dozent = dozent;
 	}
 
+	public String getLastLocation() {
+		return lastLocation;
+	}
+
+	public void setLastLocation(String lastLocation) {
+		this.lastLocation = lastLocation;
+	}
+
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", email=" + email + ", forename="
 				+ forename + ", surname=" + surname + ", password=" + password
-				+ ", birthDate=" + birthDate + ", dozent=" + dozent + "]";
+				+ ", birthDate=" + birthDate + ", dozent=" + dozent
+				+ ", lastLocation=" + lastLocation + "]";
 	}
-
-	
 	
 }

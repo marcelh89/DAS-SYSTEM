@@ -9,7 +9,6 @@ import org.hibernate.Session;
 
 import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
-import de.fhb.dassystem.login.HibernateUtil;
 
 public class VorlesungWochentagDAO {
 	protected static Logger logger = Logger.getLogger(VorlesungWochentagDAO.class

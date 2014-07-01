@@ -8,7 +8,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import de.fhb.dassystem.db.entity.User;
-import de.fhb.dassystem.login.HibernateUtil;
 
 public class UserDAO {
 	protected static Logger logger = Logger.getLogger(UserDAO.class
@@ -18,8 +17,8 @@ public class UserDAO {
 
 	// Constructors
 
-	public UserDAO() {
-		session = HibernateUtil.getSessionFactory().openSession();
+	public UserDAO(Session session) {
+		this.session = session;
 	}
 
 	// Methods

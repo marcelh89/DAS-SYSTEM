@@ -1,7 +1,5 @@
 package de.fhb.dassystem.rest;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,8 +11,10 @@ import javax.ws.rs.Path;
 import org.hibernate.Session;
 
 
+import de.fhb.dassystem.db.dao.UserDAO;
 import de.fhb.dassystem.db.dao.UserDAO_JDBC;
 import de.fhb.dassystem.db.dao.VorlesungWochentagDAO;
+import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.User_old;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
 import de.fhb.dassystem.login.HibernateUtil;
@@ -23,7 +23,14 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	
 	private final static Logger LOGGER = Logger.getLogger(DasSystemRESTAccessor.class.getName()); 
 	private UserDAO_JDBC ud = new UserDAO_JDBC();
+	private UserDAO uDao;
+	private VorlesungWochentagDAO vwDao;
 	private static Session hibSession = HibernateUtil.getSessionFactory().openSession();
+	
+	public DasSystemRESTAccessor(){
+		uDao = new UserDAO(hibSession);
+		vwDao = new VorlesungWochentagDAO(hibSession);
+	}
 	
 	@GET
 	@Path("/hi")
@@ -47,32 +54,36 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 
 	@Override
 	@POST
-	@Path("/register")
-	public boolean register(User_old user) {
-		List<User_old> listUser = ud.getall();
-		for(User_old u: listUser){
-			if(u.getEmail().equals(user.getEmail())){
-				return false;
-			}
+	@Path("/login2")
+	public User login2(User user) {
+		System.out.println("RESTAccessor.login| email:"+user.getEmail()+" passwort:"+user.getPassword());
+//		uDao = new UserDAO(hibSession);
+		User u = uDao.findByEmail(user.getEmail());
+		if(u.getPassword().equals(user.getPassword())){
+			return u;
 		}
-//		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-//		Date birthDate;
-//		try {
-//			birthDate = sf.parse(userbirthdate); 
-//		} catch (ParseException e) {
-//			LOGGER.warning("Konnte Geburtsdatum nicht setzen: "+birthdate);
-////			e.printStackTrace();
-//			birthDate = null;
-//		}
-		ud.create(user);
-		return true;
+		return null;
+	}
+	
+	@Override
+	@POST
+	@Path("/register")
+	public boolean register(User user) {
+		boolean retVal = false;
+		if(uDao.findByEmail(user.getEmail()) == null){
+			uDao.create(user);
+			retVal = true;
+		}else{
+			retVal = false;
+		}
+		return retVal;
 	}
 
 	@Override
 	@GET
 	@Path("/vorlesung/all")
 	public List<VorlesungWochentag> getVorlesung() {
-		VorlesungWochentagDAO dao = new VorlesungWochentagDAO(hibSession);
-		return dao.findAll();
+//		vwDao = new VorlesungWochentagDAO(hibSession);
+		return vwDao.findAll();
 	}
 }
