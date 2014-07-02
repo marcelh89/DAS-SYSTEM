@@ -25,10 +25,10 @@ public class VorlesungWochentag implements Serializable {
     @Column(name = "vwid", unique = true, nullable = false)
 	private Integer vwid;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "vid", nullable = false)
 	private Vorlesung vorlesung;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "dozentid", nullable = false)
 	private User dozent;
 	@Column(name="wochentag")

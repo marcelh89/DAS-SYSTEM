@@ -12,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.User_old;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
+import de.fhb.dassystem.valueobject.raum.RauminfoIn;
+import de.fhb.dassystem.valueobject.raum.Rauminformation;
 
 @Path("/dassystem")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -21,6 +23,11 @@ public interface IDasSystemRESTAccessor {
 	@GET
 	@Path("/hi")
 	public User_old halloWelt();
+	
+	@GET
+	@Path("/testuser")
+	public List<User> getUser();
+	
 	@POST
 	@Path("/login")
 	public User_old login(User_old user);
@@ -34,4 +41,12 @@ public interface IDasSystemRESTAccessor {
 	@GET
 	@Path("/vorlesung/all")
 	public List<VorlesungWochentag> getVorlesung();
+	
+	@POST
+	@Path("/rauminfo/")
+	public Rauminformation getRauminformation(RauminfoIn rIn);
+	@GET
+	@Path("/rauminfo/test")
+	public Rauminformation getRauminformation();
+//	public List<VorlesungWochentag> getVorlesung();
 }

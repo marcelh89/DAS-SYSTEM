@@ -1,6 +1,10 @@
 package de.fhb.dassystem.rest;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,6 +22,8 @@ import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.User_old;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
 import de.fhb.dassystem.login.HibernateUtil;
+import de.fhb.dassystem.valueobject.raum.RauminfoIn;
+import de.fhb.dassystem.valueobject.raum.Rauminformation;
 
 public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	
@@ -59,6 +65,7 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 		System.out.println("RESTAccessor.login| email:"+user.getEmail()+" passwort:"+user.getPassword());
 //		uDao = new UserDAO(hibSession);
 		User u = uDao.findByEmail(user.getEmail());
+		System.out.println(u);
 		if(u.getPassword().equals(user.getPassword())){
 			return u;
 		}
@@ -85,5 +92,60 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	public List<VorlesungWochentag> getVorlesung() {
 //		vwDao = new VorlesungWochentagDAO(hibSession);
 		return vwDao.findAll();
+	}
+
+	@Override
+	@POST
+	@Path("/rauminfo/")
+	public Rauminformation getRauminformation(RauminfoIn rIn) {
+		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy-HH:mm");
+		Rauminformation raumInfo = null;	
+		try {
+			VorlesungWochentag vorlesungWochentag = vwDao.findByDateAndRaumNr(sf.parse(rIn.getDatum()), rIn.getRaumNr());
+			if(vorlesungWochentag != null){
+				raumInfo = new Rauminformation();
+				raumInfo.setBegin(vorlesungWochentag.getBegin());
+				raumInfo.setEnde(vorlesungWochentag.getEnde());
+				raumInfo.setRaumNr(vorlesungWochentag.getRaumnr());
+//				raumInfo.setVorlesung(vorlesungWochentag.getVorlesung());	
+				raumInfo.setVid(vorlesungWochentag.getVorlesung().getVid());
+				raumInfo.setInhalt(vorlesungWochentag.getVorlesung().getInhalt());
+				raumInfo.setName(vorlesungWochentag.getVorlesung().getName());
+				raumInfo.setAnmeldecode(vorlesungWochentag.getVorlesung().getAnmeldecode());
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		System.out.println(raumInfo);
+		return raumInfo;
+	}
+
+	@Override
+	@GET
+	@Path("/rauminfo/test")
+	public Rauminformation getRauminformation() {
+		Calendar monTest = new GregorianCalendar(2014,5,30,9,15);
+		Rauminformation raumInfo = null;		
+		VorlesungWochentag vorlesungWochentag = vwDao.findByDateAndRaumNr(monTest.getTime(), "A34");
+		if(vorlesungWochentag != null){
+			raumInfo = new Rauminformation();
+			raumInfo.setBegin(vorlesungWochentag.getBegin());
+			raumInfo.setEnde(vorlesungWochentag.getEnde());
+			raumInfo.setRaumNr(vorlesungWochentag.getRaumnr());
+//			raumInfo.setVorlesung(vorlesungWochentag.getVorlesung());	
+			raumInfo.setVid(vorlesungWochentag.getVorlesung().getVid());
+			raumInfo.setInhalt(vorlesungWochentag.getVorlesung().getInhalt());
+			raumInfo.setName(vorlesungWochentag.getVorlesung().getName());
+			raumInfo.setAnmeldecode(vorlesungWochentag.getVorlesung().getAnmeldecode());
+		}
+		
+		return raumInfo;
+	}
+
+	@Override
+	@GET
+	@Path("/testuser")
+	public List<User> getUser() {
+		return uDao.findAll();
 	}
 }
