@@ -32,7 +32,7 @@ public interface IDasSystemRESTAccessor {
 	public List<User> getUser();
 
 	@GET
-	@Path("/testgruppe")
+	@Path("/gruppe/all")
 	public List<Gruppe> getGroups();
 
 	@POST
