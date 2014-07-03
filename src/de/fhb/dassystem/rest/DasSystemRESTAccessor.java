@@ -14,12 +14,13 @@ import javax.ws.rs.Path;
 
 import org.hibernate.Session;
 
-
+import de.fhb.dassystem.db.dao.GruppeDAO;
 import de.fhb.dassystem.db.dao.UserDAO;
 import de.fhb.dassystem.db.dao.UserDAO_JDBC;
 import de.fhb.dassystem.db.dao.VorlesungDAO;
 import de.fhb.dassystem.db.dao.VorlesungTeilnehmerDAO;
 import de.fhb.dassystem.db.dao.VorlesungWochentagDAO;
+import de.fhb.dassystem.db.entity.Gruppe;
 import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.User_old;
 import de.fhb.dassystem.db.entity.Vorlesung;
@@ -30,37 +31,43 @@ import de.fhb.dassystem.valueobject.kurs.KursAnmeldenIn;
 import de.fhb.dassystem.valueobject.raum.RauminfoIn;
 import de.fhb.dassystem.valueobject.raum.Rauminformation;
 
-public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
-	
-	private final static Logger LOGGER = Logger.getLogger(DasSystemRESTAccessor.class.getName()); 
+public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
+
+	private final static Logger LOGGER = Logger
+			.getLogger(DasSystemRESTAccessor.class.getName());
 	private UserDAO_JDBC ud = new UserDAO_JDBC();
 	private UserDAO uDao;
+	private GruppeDAO gDao;
 	private VorlesungDAO vDao;
 	private VorlesungWochentagDAO vwDao;
 	private VorlesungTeilnehmerDAO vtDao;
-	private static Session hibSession = HibernateUtil.getSessionFactory().openSession();
-	
-	public DasSystemRESTAccessor(){
+	private static Session hibSession = HibernateUtil.getSessionFactory()
+			.openSession();
+
+	public DasSystemRESTAccessor() {
 		uDao = new UserDAO(hibSession);
+		gDao = new GruppeDAO(hibSession);
 		vDao = new VorlesungDAO(hibSession);
 		vwDao = new VorlesungWochentagDAO(hibSession);
 		vtDao = new VorlesungTeilnehmerDAO(hibSession);
 	}
-	
+
 	@GET
 	@Path("/hi")
-	public User_old halloWelt(){
+	public User_old halloWelt() {
 		return new User_old("hallo", "du", "da", "pilz", new Date(), false);
 	}
-	
+
 	@Override
 	@POST
 	@Path("/login")
 	public User_old login(User_old user) {
-		System.out.println("RESTAccessor.login| email:"+user.getEmail()+" passwort:"+user.getPassword());
+		System.out.println("RESTAccessor.login| email:" + user.getEmail()
+				+ " passwort:" + user.getPassword());
 		List<User_old> users = ud.findByEmail(user.getEmail());
-		for(User_old u : users){
-			if(u.getEmail().equals(user.getEmail()) && u.getPassword().equals(user.getPassword())){
+		for (User_old u : users) {
+			if (u.getEmail().equals(user.getEmail())
+					&& u.getPassword().equals(user.getPassword())) {
 				return u;
 			}
 		}
@@ -71,25 +78,26 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	@POST
 	@Path("/login2")
 	public User login2(User user) {
-		System.out.println("RESTAccessor.login| email:"+user.getEmail()+" passwort:"+user.getPassword());
-//		uDao = new UserDAO(hibSession);
+		System.out.println("RESTAccessor.login| email:" + user.getEmail()
+				+ " passwort:" + user.getPassword());
+		// uDao = new UserDAO(hibSession);
 		User u = uDao.findByEmail(user.getEmail());
 		System.out.println(u);
-		if(u.getPassword().equals(user.getPassword())){
+		if (u.getPassword().equals(user.getPassword())) {
 			return u;
 		}
 		return null;
 	}
-	
+
 	@Override
 	@POST
 	@Path("/register")
 	public boolean register(User user) {
 		boolean retVal = false;
-		if(uDao.findByEmail(user.getEmail()) == null){
+		if (uDao.findByEmail(user.getEmail()) == null) {
 			uDao.create(user);
 			retVal = true;
-		}else{
+		} else {
 			retVal = false;
 		}
 		return retVal;
@@ -99,7 +107,7 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	@GET
 	@Path("/vorlesung/all")
 	public List<VorlesungWochentag> getVorlesung() {
-//		vwDao = new VorlesungWochentagDAO(hibSession);
+		// vwDao = new VorlesungWochentagDAO(hibSession);
 		return vwDao.findAll();
 	}
 
@@ -108,19 +116,22 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	@Path("/rauminfo/")
 	public Rauminformation getRauminformation(RauminfoIn rIn) {
 		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy-HH:mm");
-		Rauminformation raumInfo = null;	
+		Rauminformation raumInfo = null;
 		try {
-			VorlesungWochentag vorlesungWochentag = vwDao.findByDateAndRaumNr(sf.parse(rIn.getDatum()), rIn.getRaumNr());
-			if(vorlesungWochentag != null){
+			VorlesungWochentag vorlesungWochentag = vwDao.findByDateAndRaumNr(
+					sf.parse(rIn.getDatum()), rIn.getRaumNr());
+			if (vorlesungWochentag != null) {
 				raumInfo = new Rauminformation();
 				raumInfo.setBegin(vorlesungWochentag.getBegin());
 				raumInfo.setEnde(vorlesungWochentag.getEnde());
 				raumInfo.setRaumNr(vorlesungWochentag.getRaumnr());
-//				raumInfo.setVorlesung(vorlesungWochentag.getVorlesung());	
+				// raumInfo.setVorlesung(vorlesungWochentag.getVorlesung());
 				raumInfo.setVid(vorlesungWochentag.getVorlesung().getVid());
-				raumInfo.setInhalt(vorlesungWochentag.getVorlesung().getInhalt());
+				raumInfo.setInhalt(vorlesungWochentag.getVorlesung()
+						.getInhalt());
 				raumInfo.setName(vorlesungWochentag.getVorlesung().getName());
-				raumInfo.setAnmeldecode(vorlesungWochentag.getVorlesung().getAnmeldecode());
+				raumInfo.setAnmeldecode(vorlesungWochentag.getVorlesung()
+						.getAnmeldecode());
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -133,21 +144,23 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	@GET
 	@Path("/rauminfo/test")
 	public Rauminformation getRauminformation() {
-		Calendar monTest = new GregorianCalendar(2014,5,30,9,15);
-		Rauminformation raumInfo = null;		
-		VorlesungWochentag vorlesungWochentag = vwDao.findByDateAndRaumNr(monTest.getTime(), "A34");
-		if(vorlesungWochentag != null){
+		Calendar monTest = new GregorianCalendar(2014, 5, 30, 9, 15);
+		Rauminformation raumInfo = null;
+		VorlesungWochentag vorlesungWochentag = vwDao.findByDateAndRaumNr(
+				monTest.getTime(), "A34");
+		if (vorlesungWochentag != null) {
 			raumInfo = new Rauminformation();
 			raumInfo.setBegin(vorlesungWochentag.getBegin());
 			raumInfo.setEnde(vorlesungWochentag.getEnde());
 			raumInfo.setRaumNr(vorlesungWochentag.getRaumnr());
-//			raumInfo.setVorlesung(vorlesungWochentag.getVorlesung());	
+			// raumInfo.setVorlesung(vorlesungWochentag.getVorlesung());
 			raumInfo.setVid(vorlesungWochentag.getVorlesung().getVid());
 			raumInfo.setInhalt(vorlesungWochentag.getVorlesung().getInhalt());
 			raumInfo.setName(vorlesungWochentag.getVorlesung().getName());
-			raumInfo.setAnmeldecode(vorlesungWochentag.getVorlesung().getAnmeldecode());
+			raumInfo.setAnmeldecode(vorlesungWochentag.getVorlesung()
+					.getAnmeldecode());
 		}
-		
+
 		return raumInfo;
 	}
 
@@ -189,7 +202,9 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 		return rauminfo;
 	}
 
-
-
+	@Override
+	public List<Gruppe> getGroups() {
+		return gDao.findAll();
+	}
 
 }

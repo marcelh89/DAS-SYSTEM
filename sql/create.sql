@@ -9,7 +9,9 @@
 drop table if exists `VorlesungTeilnehmer`;
 drop table if exists `VorlesungWochentag`;
 drop table if exists `Vorlesung`;
+drop table if exists `Gruppe`;
 drop table if exists `user`;
+
 
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -30,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
 (1, 'marcelh89@googlemail.com', 'Marcel', 'Hinderlich', '123', '1989-11-10', false);
+INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
+(2, 'sys@tem.com', 'System', 'System', '123', '1989-11-10', false);
 
 -- Vorlesung Tabelle
 CREATE TABLE IF NOT EXISTS Vorlesung (
@@ -39,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Vorlesung (
  ,anmeldecode   varchar(50)
  ,PRIMARY KEY(vid) 
 );
-INSERT INTO `Vorlesung` (`name`, `inhalt`) VALUES ('Mobile Informationssysteme','Alles rund um Marcel Hinderlich'),('Sonnenblumen','Öl'); 
+INSERT INTO `Vorlesung` (`name`, `inhalt`) VALUES ('Mobile Informationssysteme','Alles rund um Marcel Hinderlich'),('Sonnenblumen','ï¿½l'); 
 
 
 CREATE TABLE IF NOT EXISTS VorlesungWochentag (
@@ -54,7 +58,7 @@ CREATE TABLE IF NOT EXISTS VorlesungWochentag (
  ,FOREIGN KEY(vid) REFERENCES Vorlesung(vid) on delete no action on update no action
  ,FOREIGN KEY(dozentid) REFERENCES user(id) on delete no action on update no action
 );
-INSERT INTO `dassystem`.`vorlesungwochentag` (`vwid`, `vid`, `wochentag`, `begin`, `ende`, `raumnr`, `dozentid`) VALUES (NULL, '1', 'Montag', '9:00', '10:00', 'A34', '1');
+INSERT INTO `VorlesungWochentag` (`vwid`, `vid`, `wochentag`, `begin`, `ende`, `raumnr`, `dozentid`) VALUES (NULL, '1', 'Montag', '9:00', '10:00', 'A34', '1');
 
 CREATE TABLE IF NOT EXISTS VorlesungTeilnehmer (
   vtid     		integer  	not null auto_increment
@@ -65,3 +69,27 @@ CREATE TABLE IF NOT EXISTS VorlesungTeilnehmer (
   ,FOREIGN KEY(vid) REFERENCES Vorlesung(vid) on delete no action on update no action
   ,FOREIGN KEY(uid) REFERENCES user(id) on delete no action on update no action
 );
+
+
+
+drop table if exists `Gruppe`;
+
+
+CREATE TABLE IF NOT EXISTS `Gruppe` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `ispublic` tinyint(1) NOT NULL,
+  `uid`		int 		NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(uid) REFERENCES user(id) on delete no action on update no action
+
+ 
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('global',1, 2);
+INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private1',1, 2);
+INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private2',1, 2);
+
+
+
+
