@@ -6,15 +6,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
 
 @Entity
 @Table(name = "Gruppe")
@@ -29,19 +32,20 @@ public class Gruppe implements Serializable {
 	private String name;
 	@Column(name = "ispublic")
 	private boolean isPublic;
-//	@OneToOne
-//	@NotNull
-//	User creator; // one of the users
-//	@OneToMany
-//	@NotNull
-//	List<User> users;
+	@OneToOne
+	@JoinColumn(name = "uid")
+	User creator; // one of the users
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "Group_User", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = { @JoinColumn(name = "id") })
+	List<User> users;
 
 	public Gruppe(String name, boolean isPublic, User creator) {
 		this.name = name;
 		this.isPublic = isPublic;
-//		this.creator = creator;
-//		this.users = new ArrayList<User>();
-//		users.add(creator);
+		// this.creator = creator;
+		// this.users = new ArrayList<User>();
+		// users.add(creator);
 	}
 
 	public Gruppe() {
@@ -69,20 +73,20 @@ public class Gruppe implements Serializable {
 		return name;
 	}
 
-//	public User getCreator() {
-//		return creator;
-//	}
-//
-//	public void setCreator(User creator) {
-//		this.creator = creator;
-//	}
-//
-//	public List<User> getUsers() {
-//		return users;
-//	}
-//
-//	public void setUsers(List<User> users) {
-//		this.users = users;
-//	}
+	public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
 }

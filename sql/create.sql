@@ -91,5 +91,15 @@ INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private1',1, 2);
 INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private2',1, 2);
 
 
+CREATE TABLE IF NOT EXISTS `Group_User` (
+  `uid` int(11) NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `Group_User`(`uid`, `id`) VALUES (1,2);
+INSERT INTO `Group_User`(`uid`, `id`) VALUES (1,1);
+INSERT INTO `Group_User`(`uid`, `id`) VALUES (2,2);
+INSERT INTO `Group_User`(`uid`, `id`) VALUES (3,2);
+
 
 

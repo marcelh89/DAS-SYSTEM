@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private boolean dozent;
 	@Column(name="lastlocation")
 	private String lastLocation;
-
+	
 
 	public User() {
 
