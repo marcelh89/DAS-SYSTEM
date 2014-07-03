@@ -6,8 +6,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,11 +26,13 @@ public class VorlesungTeilnehmer implements Serializable {
     @Column(name = "vtid", unique = true, nullable = false)
 	private Integer vtid;
 
-	@Column(name="vid")
-	private Integer vid;
-	@Column(name="uid")
-	private Integer uid;
-	@Column(name="anmeldecode")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "vid", nullable = false)
+	private Vorlesung vorlesung;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "uid", nullable = false)
+	private User user;
+	@Column(name="datum")
 	private Date datum;
 
 	public VorlesungTeilnehmer() {
@@ -42,22 +47,6 @@ public class VorlesungTeilnehmer implements Serializable {
 		this.vtid = vtid;
 	}
 
-	public Integer getVid() {
-		return vid;
-	}
-
-	public void setVid(Integer vid) {
-		this.vid = vid;
-	}
-
-	public Integer getUid() {
-		return uid;
-	}
-
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
-
 	public Date getDatum() {
 		return datum;
 	}
@@ -66,9 +55,27 @@ public class VorlesungTeilnehmer implements Serializable {
 		this.datum = datum;
 	}
 
+	public Vorlesung getVorlesung() {
+		return vorlesung;
+	}
+
+	public void setVorlesung(Vorlesung vorlesung) {
+		this.vorlesung = vorlesung;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
-		return "VorlesungTeilnehmer [vtid=" + vtid + ", vid=" + vid + ", uid="
-				+ uid + ", datum=" + datum + "]";
+		return "VorlesungTeilnehmer [vtid=" + vtid + ", vorlesung=" + vorlesung
+				+ ", user=" + user + ", datum=" + datum + "]";
 	}
+
+	
 }

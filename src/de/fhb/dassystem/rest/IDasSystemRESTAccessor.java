@@ -11,7 +11,9 @@ import javax.ws.rs.core.MediaType;
 
 import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.User_old;
+import de.fhb.dassystem.db.entity.VorlesungTeilnehmer;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
+import de.fhb.dassystem.valueobject.kurs.KursAnmeldenIn;
 import de.fhb.dassystem.valueobject.raum.RauminfoIn;
 import de.fhb.dassystem.valueobject.raum.Rauminformation;
 
@@ -41,6 +43,14 @@ public interface IDasSystemRESTAccessor {
 	@GET
 	@Path("/vorlesung/all")
 	public List<VorlesungWochentag> getVorlesung();
+	
+	@GET
+	@Path("/vorlesung/teilnehmer/all")
+	public List<VorlesungTeilnehmer> getVorlesungsTeilnehmer();
+	
+	@POST
+	@Path("/vorlesung/teilnehmer/anmelden")
+	public Rauminformation anKursAnmelden(KursAnmeldenIn kIn);
 	
 	@POST
 	@Path("/rauminfo/")

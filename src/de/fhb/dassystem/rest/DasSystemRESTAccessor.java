@@ -17,11 +17,16 @@ import org.hibernate.Session;
 
 import de.fhb.dassystem.db.dao.UserDAO;
 import de.fhb.dassystem.db.dao.UserDAO_JDBC;
+import de.fhb.dassystem.db.dao.VorlesungDAO;
+import de.fhb.dassystem.db.dao.VorlesungTeilnehmerDAO;
 import de.fhb.dassystem.db.dao.VorlesungWochentagDAO;
 import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.User_old;
+import de.fhb.dassystem.db.entity.Vorlesung;
+import de.fhb.dassystem.db.entity.VorlesungTeilnehmer;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
 import de.fhb.dassystem.login.HibernateUtil;
+import de.fhb.dassystem.valueobject.kurs.KursAnmeldenIn;
 import de.fhb.dassystem.valueobject.raum.RauminfoIn;
 import de.fhb.dassystem.valueobject.raum.Rauminformation;
 
@@ -30,12 +35,16 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	private final static Logger LOGGER = Logger.getLogger(DasSystemRESTAccessor.class.getName()); 
 	private UserDAO_JDBC ud = new UserDAO_JDBC();
 	private UserDAO uDao;
+	private VorlesungDAO vDao;
 	private VorlesungWochentagDAO vwDao;
+	private VorlesungTeilnehmerDAO vtDao;
 	private static Session hibSession = HibernateUtil.getSessionFactory().openSession();
 	
 	public DasSystemRESTAccessor(){
 		uDao = new UserDAO(hibSession);
+		vDao = new VorlesungDAO(hibSession);
 		vwDao = new VorlesungWochentagDAO(hibSession);
+		vtDao = new VorlesungTeilnehmerDAO(hibSession);
 	}
 	
 	@GET
@@ -148,4 +157,39 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor{
 	public List<User> getUser() {
 		return uDao.findAll();
 	}
+
+	@Override
+	@GET
+	@Path("/vorlesung/teilnehmer/all")
+	public List<VorlesungTeilnehmer> getVorlesungsTeilnehmer() {
+		return vtDao.findAll();
+	}
+
+	@Override
+	@POST
+	@Path("/vorlesung/teilnehmer/anmelden")
+	public Rauminformation anKursAnmelden(KursAnmeldenIn kIn) {
+		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
+		Rauminformation rauminfo = null;
+		try {
+			Vorlesung vorlesung = vDao.findByAnmeldecode(kIn.getAnmeldecode());
+			User user = uDao.findById(kIn.getUserid());
+			VorlesungTeilnehmer vt = new VorlesungTeilnehmer();
+			vt.setDatum(sf.parse(kIn.getDatum()));
+			vt.setVorlesung(vorlesung);
+			vt.setUser(user);
+			rauminfo = new Rauminformation();
+			rauminfo.setName(vorlesung.getName());
+			rauminfo.setInhalt(vorlesung.getInhalt());
+			System.out.println(rauminfo);
+			vtDao.create(vt);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return rauminfo;
+	}
+
+
+
+
 }
