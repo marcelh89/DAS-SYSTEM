@@ -87,10 +87,10 @@ CREATE TABLE IF NOT EXISTS `Gruppe` (
  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('global',1, 2);
-INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private1',1, 2);
-INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private2',1, 2);
-INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('useradded',1, 1);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'global',1, 2);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'private1',1, 2);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'private2',1, 2);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'useradded',1, 1);
 
 
 CREATE TABLE IF NOT EXISTS `Group_User` (

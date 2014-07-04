@@ -89,4 +89,14 @@ public class Gruppe implements Serializable {
 		this.users = users;
 	}
 
+	public Integer getGid() {
+		return gid;
+	}
+
+	public void setGid(Integer gid) {
+		this.gid = gid;
+	}
+	
+	
+
 }
