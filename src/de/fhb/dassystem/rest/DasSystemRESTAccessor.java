@@ -241,4 +241,34 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 		return returnlist;
 	}
 
+	@Override
+	public boolean addGroup(Gruppe gruppe) {
+		boolean val;
+		boolean groupInDb = false;
+
+		// check if group already in db
+		List<Gruppe> grouplist = gDao.findAll();
+
+		for (Gruppe grp : grouplist) {
+			if (!grp.equals(gruppe)) {
+				groupInDb = true;
+			}
+		}
+
+		if (groupInDb) {
+			val = false;
+		} else {
+			if (gruppe == null) {
+				val = false;
+			} else {
+				val = true;
+
+				// create in db
+				gruppe.setGid(null);
+				gDao.create(gruppe);
+			}
+		}
+
+		return val;
+	}
 }
