@@ -34,6 +34,10 @@ INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate
 (1, 'marcelh89@googlemail.com', 'Marcel', 'Hinderlich', '123', '1989-11-10', false);
 INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
 (2, 'sys@tem.com', 'System', 'System', '123', '1989-11-10', false);
+INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
+(3, 'mark@mark.com', 'Mark', 'Marksen', '123', '1989-11-10', false);
+INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
+(4, 'me@myself.com', 'Me', 'Myself', '123', '1989-11-10', false);
 
 -- Vorlesung Tabelle
 CREATE TABLE IF NOT EXISTS Vorlesung (

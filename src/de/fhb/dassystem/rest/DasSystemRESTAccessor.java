@@ -242,8 +242,8 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	}
 
 	@Override
-	public boolean addGroup(Gruppe gruppe) {
-		boolean val;
+	public boolean addGroup(Gruppe gruppe, User currentUser) {
+		boolean success = false;
 		boolean groupInDb = false;
 
 		// check if group already in db
@@ -256,12 +256,12 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 		}
 
 		if (groupInDb) {
-			val = false;
+			success = false;
 		} else {
 			if (gruppe == null) {
-				val = false;
+				success = false;
 			} else {
-				val = true;
+				success = true;
 
 				// create in db
 				gruppe.setGid(null);
@@ -269,6 +269,28 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 			}
 		}
 
-		return val;
+		return success;
+	}
+
+	@Override
+	public boolean updateGroup(Gruppe gruppe, User newUser) {
+
+		boolean success = false;
+
+		Gruppe dbGroup = gDao.findById(gruppe.getGid());
+
+		if (dbGroup == null) {
+			success = false;
+		} else {
+
+			List<User> users = dbGroup.getUsers();
+			users.add(newUser);
+			dbGroup.setUsers(users);
+			gDao.update(dbGroup);
+
+			success = true;
+		}
+
+		return success;
 	}
 }
