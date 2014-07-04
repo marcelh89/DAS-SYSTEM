@@ -36,6 +36,10 @@ public interface IDasSystemRESTAccessor {
 	public List<Gruppe> getGroups();
 
 	@POST
+	@Path("/gruppe/user")
+	public List<Gruppe> getGroups(User user);
+
+	@POST
 	@Path("/login")
 	public User_old login(User_old user);
 

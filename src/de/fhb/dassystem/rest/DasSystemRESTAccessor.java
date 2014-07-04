@@ -2,6 +2,7 @@ package de.fhb.dassystem.rest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -43,6 +44,8 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	private VorlesungTeilnehmerDAO vtDao;
 	private static Session hibSession = HibernateUtil.getSessionFactory()
 			.openSession();
+
+	private static final int SYSTEM_ID = 2;
 
 	public DasSystemRESTAccessor() {
 		uDao = new UserDAO(hibSession);
@@ -205,6 +208,37 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	@Override
 	public List<Gruppe> getGroups() {
 		return gDao.findAll();
+	}
+
+	@Override
+	public List<Gruppe> getGroups(User user) {
+
+		List<Gruppe> grouplist = gDao.findAll();
+		List<Gruppe> returnlist = new ArrayList<>();
+
+		// add all system groups
+		for (Gruppe gruppe : grouplist) {
+			List<User> users = gruppe.getUsers();
+
+			for (User u : users) {
+				if (u.getUid().equals(SYSTEM_ID))
+					returnlist.add(gruppe);
+			}
+
+		}
+
+		// add user specific groups
+		for (Gruppe gruppe : grouplist) {
+			List<User> users = gruppe.getUsers();
+
+			for (User u : users) {
+				if (u.getUid().equals(user.getUid()))
+					returnlist.add(gruppe);
+			}
+
+		}
+
+		return returnlist;
 	}
 
 }

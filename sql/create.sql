@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS VorlesungTeilnehmer (
 
 
 drop table if exists `Gruppe`;
+drop table if exists `Group_User`;
 
 
 CREATE TABLE IF NOT EXISTS `Gruppe` (
@@ -89,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `Gruppe` (
 INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('global',1, 2);
 INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private1',1, 2);
 INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private2',1, 2);
+INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('useradded',1, 1);
 
 
 CREATE TABLE IF NOT EXISTS `Group_User` (
@@ -97,9 +99,9 @@ CREATE TABLE IF NOT EXISTS `Group_User` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `Group_User`(`uid`, `id`) VALUES (1,2);
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (1,1);
 INSERT INTO `Group_User`(`uid`, `id`) VALUES (2,2);
 INSERT INTO `Group_User`(`uid`, `id`) VALUES (3,2);
+INSERT INTO `Group_User`(`uid`, `id`) VALUES (4,1);
 
 
 
