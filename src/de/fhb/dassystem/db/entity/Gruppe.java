@@ -26,7 +26,7 @@ public class Gruppe implements Serializable {
 	private static final long serialVersionUID = 8740865935045063839L;
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "gid", unique = true, nullable = false)
 	private Integer gid;
 	@Column(name = "name")
 	private String name;
@@ -37,19 +37,19 @@ public class Gruppe implements Serializable {
 	User creator; // one of the users
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "Group_User", joinColumns = { @JoinColumn(name = "uid") }, inverseJoinColumns = { @JoinColumn(name = "id") })
+	@JoinTable(name = "Group_User", joinColumns = { @JoinColumn(name = "gid") }, inverseJoinColumns = { @JoinColumn(name = "uid") })
 	List<User> users;
 
-	public Gruppe(String name, boolean isPublic, User creator) {
-		this.name = name;
-		this.isPublic = isPublic;
-		// this.creator = creator;
-		// this.users = new ArrayList<User>();
-		// users.add(creator);
-	}
+//	public Gruppe(String name, boolean isPublic, User creator) {
+//		this.name = name;
+//		this.isPublic = isPublic;
+//		this.creator = creator;
+//		this.users = new ArrayList<User>();
+//		users.add(creator);
+//	}
 
 	public Gruppe() {
-		this(null, false, null);
+
 	}
 
 	public String getName() {

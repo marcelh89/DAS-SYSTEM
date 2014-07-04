@@ -77,11 +77,11 @@ drop table if exists `Group_User`;
 
 
 CREATE TABLE IF NOT EXISTS `Gruppe` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gid` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   `ispublic` tinyint(1) NOT NULL,
   `uid`		int 		NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`gid`),
   FOREIGN KEY(uid) REFERENCES user(id) on delete no action on update no action
 
  
@@ -94,14 +94,14 @@ INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('useradded',1, 1);
 
 
 CREATE TABLE IF NOT EXISTS `Group_User` (
-  `uid` int(11) NOT NULL,
-  `id` int(11) NOT NULL
+  `gid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (1,2);
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (2,2);
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (3,2);
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (4,1);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (1,2);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (2,2);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (3,2);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (4,1);
 
 
 
