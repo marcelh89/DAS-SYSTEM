@@ -1,9 +1,7 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-    version="3.0">
-    <display-name>DAS-SYSTEM-SERVER</display-name>
-    <context-param>
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>DAS-SYSTEM-SERVER</display-name>
+  <context-param>
     <param-name>resteasy.scan</param-name>
     <param-value>true</param-value>
   </context-param>
@@ -22,16 +20,13 @@
     <servlet-name>Resteasy</servlet-name>
     <url-pattern>/dassystem/*</url-pattern>
   </servlet-mapping>
-  
   <servlet>
-      <display-name></display-name>
-      <servlet-name>JSONServlet</servlet-name>
-      <servlet-class>de.fhb.dassystem.login.JsonLoginTestServlet</servlet-class>
+    <display-name></display-name>
+    <servlet-name>JSONServlet</servlet-name>
+    <servlet-class>de.fhb.dassystem.login.JsonLoginTestServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
-      <servlet-name>JSONServlet</servlet-name>
-      <url-pattern>/JsonServlet</url-pattern>
+    <servlet-name>JSONServlet</servlet-name>
+    <url-pattern>/JsonServlet</url-pattern>
   </servlet-mapping>
-
 </web-app>
