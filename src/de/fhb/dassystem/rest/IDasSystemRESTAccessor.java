@@ -44,7 +44,7 @@ public interface IDasSystemRESTAccessor {
 
 	@POST
 	@Path("/gruppe/add")
-	public boolean addGroup(Gruppe gruppe, User currentUser);
+	public boolean addGroup(Gruppe gruppe);
 
 	@PUT
 	@Path("/gruppe/update")

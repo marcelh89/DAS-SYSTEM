@@ -36,7 +36,7 @@ public class Gruppe implements Serializable {
 	@JoinColumn(name = "uid")
 	User creator; // one of the users
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	@JoinTable(name = "Group_User", joinColumns = { @JoinColumn(name = "gid") }, inverseJoinColumns = { @JoinColumn(name = "uid") })
 	List<User> users;
 
