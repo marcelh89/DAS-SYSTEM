@@ -244,34 +244,50 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	}
 
 	@Override
-	public boolean addGroup(Gruppe gruppe, User currentUser) {
+	public boolean addGroup(Gruppe gruppe) {
 		boolean success = false;
-		boolean groupInDb = false;
 
 		// check if group already in db
-		List<Gruppe> grouplist = gDao.findAll();
+		Gruppe dbGroup = gDao.findById(gruppe.getGid());
 
-		for (Gruppe grp : grouplist) {
-			if (!grp.equals(gruppe)) {
-				groupInDb = true;
-			}
-		}
-
-		if (groupInDb) {
+		if (dbGroup != null) {
 			success = false;
 		} else {
-			if (gruppe == null) {
-				success = false;
-			} else {
-				success = true;
 
-				// create in db
-				gruppe.setGid(null);
-				gDao.create(gruppe);
-			}
+			success = true;
+
+			// only for test purpose
+			// gruppe.setUsers(null);
+
+			User dbCreator = uDao.findById(gruppe.getCreator().getUid());
+			gruppe.setCreator(dbCreator);
+
+			gDao.create(gruppe);
+
 		}
 
 		return success;
+	}
+
+	@Override
+	public boolean deleteGroup(Gruppe gruppe) {
+		boolean success = false;
+
+		// check if group already in db
+		Gruppe dbGroup = gDao.findById(gruppe.getGid());
+
+		if (dbGroup == null) {
+			success = false;
+		} else {
+
+			success = true;
+
+			gDao.delete(dbGroup);
+
+		}
+
+		return success;
+
 	}
 
 	@Override
@@ -279,23 +295,35 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 
 		boolean success = false;
 
+		// check if goup exist in db
 		Gruppe dbGroup = gDao.findById(gruppe.getGid());
 
+		// no
 		if (dbGroup == null) {
 			success = false;
-		} else {
 
-			List<User> users = dbGroup.getUsers();
-			users.add(newUser);
-			dbGroup.setUsers(users);
-			gDao.update(dbGroup);
+		} else { // yes
 
-			success = true;
+//			// find newUser in DB
+//			User dbUser = uDao.findById(newUser.getUid());
+//
+//			if (dbUser == null) {
+//				success = false;
+//			} else {
+//
+//				List<User> users = dbGroup.getUsers();
+//				users.add(dbUser);
+//				dbGroup.setUsers(users);
+//				gDao.update(dbGroup);
+//
+				success = true;
+//			}
+
 		}
 
 		return success;
 	}
-	
+
 	@Override
 	@GET
 	@Path("/vorlesung/{dozentid}")
@@ -310,12 +338,12 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	public Boolean updateVorlesungCode(Vorlesung vorlesung) {
 		boolean retVal = false;
 		Vorlesung vDb = null;
-		try{
+		try {
 			vDb = vDao.findById(vorlesung.getVid());
 			vDb.setAnmeldecode(vorlesung.getAnmeldecode());
 			vDao.update(vDb);
 			retVal = true;
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			retVal = false;
 		}
