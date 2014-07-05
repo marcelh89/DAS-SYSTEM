@@ -32,6 +32,7 @@ import de.fhb.dassystem.login.HibernateUtil;
 import de.fhb.dassystem.valueobject.kurs.KursAnmeldenIn;
 import de.fhb.dassystem.valueobject.raum.RauminfoIn;
 import de.fhb.dassystem.valueobject.raum.Rauminformation;
+import de.fhb.dassystem.valueobject.raum.TeilnehmerIn;
 
 public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 
@@ -319,6 +320,32 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 			retVal = false;
 		}
 		return retVal;
+	}
+
+	@Override
+	public List<User> getVorlesungTeilnehmer(TeilnehmerIn tin) {
+		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
+		List<User> teilnehmer = new ArrayList<User>();
+		System.out.println(tin.getDatum()+" "+tin.getVorlesungId());
+		try{
+			teilnehmer = vtDao.findTeilnehmerByDateAndVorlesungId(sf.parse(tin.getDatum()), tin.getVorlesungId());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return teilnehmer;
+	}
+
+	@Override
+	public List<User> getVorlesungTeilnehmerTest() {
+		System.out.println("IN Methode");
+		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
+		List<User> teilnehmer = new ArrayList<User>();
+		try{
+			teilnehmer = vtDao.findTeilnehmerByDateAndVorlesungId(sf.parse("05.07.2014"), 1);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return teilnehmer;
 	}
 
 }

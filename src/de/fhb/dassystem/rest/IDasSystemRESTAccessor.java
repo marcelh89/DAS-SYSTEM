@@ -20,6 +20,7 @@ import de.fhb.dassystem.db.entity.VorlesungWochentag;
 import de.fhb.dassystem.valueobject.kurs.KursAnmeldenIn;
 import de.fhb.dassystem.valueobject.raum.RauminfoIn;
 import de.fhb.dassystem.valueobject.raum.Rauminformation;
+import de.fhb.dassystem.valueobject.raum.TeilnehmerIn;
 
 @Path("/dassystem")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -90,4 +91,13 @@ public interface IDasSystemRESTAccessor {
 	@POST
 	@Path("/vorlesung/update")
 	public Boolean updateVorlesungCode(Vorlesung vorlesung);
+	
+	@POST
+	@Path("/vorlesung/teilnehmer")
+	public List<User> getVorlesungTeilnehmer(TeilnehmerIn tin);
+	
+	@GET
+	@Path("/vorlesung/teilnehmer/test")
+	public List<User> getVorlesungTeilnehmerTest();
+	
 }

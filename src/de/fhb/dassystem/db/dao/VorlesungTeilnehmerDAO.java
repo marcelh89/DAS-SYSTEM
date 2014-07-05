@@ -67,5 +67,19 @@ public class VorlesungTeilnehmerDAO {
 		session.getTransaction().commit();
 		return vorlesungTeilnehmers;
 	}
+	
+	public List<User> findTeilnehmerByDateAndVorlesungId(Date date, int vid){
+		session.beginTransaction();
+		Query q = session.createQuery("from VorlesungTeilnehmer where datum = :date and vid = :vid");
+		q.setParameter("date", date);
+		q.setParameter("vid", vid);
+		List<VorlesungTeilnehmer> vorlesungTeilnehmer = (ArrayList<VorlesungTeilnehmer>) q.list();
+		session.getTransaction().commit();
+		List<User> teilnehmer = new ArrayList<>();
+		for(VorlesungTeilnehmer vt : vorlesungTeilnehmer){
+			teilnehmer.add(vt.getUser());
+		}
+		return teilnehmer;
+	}
 
 }
