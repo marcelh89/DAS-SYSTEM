@@ -2,6 +2,7 @@ package de.fhb.dassystem.rest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 import org.hibernate.Session;
 
@@ -206,5 +208,33 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	public List<Gruppe> getGroups() {
 		return gDao.findAll();
 	}
+
+	@Override
+	@GET
+	@Path("/vorlesung/{dozentid}")
+	public List<Vorlesung> getVorlesungByDozent(
+			@PathParam("dozentid") int dozentid) {
+		return vDao.findAllByDozentId(dozentid);
+	}
+
+	@Override
+	@POST
+	@Path("/vorlesung/update")
+	public Boolean updateVorlesungCode(Vorlesung vorlesung) {
+		boolean retVal = false;
+		Vorlesung vDb = null;
+		try{
+			vDb = vDao.findById(vorlesung.getVid());
+			vDb.setAnmeldecode(vorlesung.getAnmeldecode());
+			vDao.update(vDb);
+			retVal = true;
+		}catch(Exception e){
+			e.printStackTrace();
+			retVal = false;
+		}
+		return retVal;
+	}
+
+
 
 }

@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
-(1, 'marcelh89@googlemail.com', 'Marcel', 'Hinderlich', '123', '1989-11-10', false);
+(1, 'marcelh89@googlemail.com', 'Marcel', 'Hinderlich', '123', '1989-11-10', true);
 INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
 (2, 'sys@tem.com', 'System', 'System', '123', '1989-11-10', false);
 
@@ -41,9 +41,11 @@ CREATE TABLE IF NOT EXISTS Vorlesung (
  ,name  		varchar(20) not null
  ,inhalt  		varchar(255)
  ,anmeldecode   varchar(50)
- ,PRIMARY KEY(vid) 
+ ,dozentid		integer		not null
+ ,PRIMARY KEY(vid)
+ ,FOREIGN KEY(dozentid) REFERENCES user(id) on delete no action on update no action
 );
-INSERT INTO `Vorlesung` (`name`, `inhalt`) VALUES ('Mobile Informationssysteme','Alles rund um Marcel Hinderlich'),('Sonnenblumen','ï¿½l'); 
+INSERT INTO `Vorlesung` (`name`, `inhalt`, `dozentid`) VALUES ('Mobile Informationssysteme','Alles rund um Marcel Hinderlich',1),('Sonnenblumen','öl',1); 
 
 
 CREATE TABLE IF NOT EXISTS VorlesungWochentag (
@@ -53,12 +55,10 @@ CREATE TABLE IF NOT EXISTS VorlesungWochentag (
  ,begin  		varchar(20) not null
  ,ende  		varchar(20) not null
  ,raumnr 		varchar(50) not null
- ,dozentid		integer		not null
  ,PRIMARY KEY(vwid)
  ,FOREIGN KEY(vid) REFERENCES Vorlesung(vid) on delete no action on update no action
- ,FOREIGN KEY(dozentid) REFERENCES user(id) on delete no action on update no action
 );
-INSERT INTO `VorlesungWochentag` (`vwid`, `vid`, `wochentag`, `begin`, `ende`, `raumnr`, `dozentid`) VALUES (NULL, '1', 'Montag', '9:00', '10:00', 'A34', '1');
+INSERT INTO `VorlesungWochentag` (`vwid`, `vid`, `wochentag`, `begin`, `ende`, `raumnr`) VALUES (NULL, '1', 'Montag', '9:00', '10:00', 'A34');
 
 CREATE TABLE IF NOT EXISTS VorlesungTeilnehmer (
   vtid     		integer  	not null auto_increment

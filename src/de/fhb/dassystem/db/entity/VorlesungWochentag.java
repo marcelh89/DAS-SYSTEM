@@ -28,9 +28,6 @@ public class VorlesungWochentag implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "vid", nullable = false)
 	private Vorlesung vorlesung;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "dozentid", nullable = false)
-	private User dozent;
 	@Column(name="wochentag")
 	private String wochentag;
 	@Column(name="begin")
@@ -50,14 +47,6 @@ public class VorlesungWochentag implements Serializable {
 
 	public void setVwid(Integer vwid) {
 		this.vwid = vwid;
-	}
-
-	public User getDozentid() {
-		return dozent;
-	}
-
-	public void setDozentid(User dozent) {
-		this.dozent = dozent;
 	}
 
 	public String getWochentag() {
@@ -103,7 +92,7 @@ public class VorlesungWochentag implements Serializable {
 	@Override
 	public String toString() {
 		return "VorlesungWochentag [vwid=" + vwid + ", vorlesung=" + vorlesung
-				+ ", dozentid=" + dozent + ", wochentag=" + wochentag
+				+ ", wochentag=" + wochentag
 				+ ", begin=" + begin + ", ende=" + ende + ", raumnr=" + raumnr
 				+ "]";
 	}

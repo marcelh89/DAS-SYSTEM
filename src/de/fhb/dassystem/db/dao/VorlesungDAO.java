@@ -69,4 +69,14 @@ public class VorlesungDAO {
 		return vorlesung;
 	}
 	
+	public List<Vorlesung> findAllByDozentId(int dozentId){
+		session.beginTransaction();
+		Query q = session.createQuery("from Vorlesung where dozentid = :dozentId");
+		q.setParameter("dozentId", dozentId);
+		@SuppressWarnings("unchecked")
+		List<Vorlesung> vorlesungen = (List<Vorlesung>) q.list();
+		session.getTransaction().commit();
+		return vorlesungen;
+	}
+	
 }

@@ -5,8 +5,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,11 +30,21 @@ public class Vorlesung implements Serializable {
 	private String inhalt;
 	@Column(name="anmeldecode")
 	private String anmeldecode;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "dozentid", nullable = false)
+	private User dozent;
 
 	public Vorlesung() {
 
 	}
 
+	public User getDozent() {
+		return dozent;
+	}
+
+	public void setDozent(User dozent) {
+		this.dozent = dozent;
+	}
 	public Integer getVid() {
 		return vid;
 	}
