@@ -294,18 +294,30 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 
 		boolean success = false;
 
+		// check if goup exist in db
 		Gruppe dbGroup = gDao.findById(gruppe.getGid());
 
+		// no
 		if (dbGroup == null) {
 			success = false;
-		} else {
 
-			List<User> users = dbGroup.getUsers();
-			users.add(newUser);
-			dbGroup.setUsers(users);
-			gDao.update(dbGroup);
+		} else { // yes
 
-			success = true;
+//			// find newUser in DB
+//			User dbUser = uDao.findById(newUser.getUid());
+//
+//			if (dbUser == null) {
+//				success = false;
+//			} else {
+//
+//				List<User> users = dbGroup.getUsers();
+//				users.add(dbUser);
+//				dbGroup.setUsers(users);
+//				gDao.update(dbGroup);
+//
+				success = true;
+//			}
+
 		}
 
 		return success;
