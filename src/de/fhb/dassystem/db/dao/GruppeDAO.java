@@ -43,7 +43,7 @@ public class GruppeDAO {
 
 	public Gruppe findById(int id) {
 		session.beginTransaction();
-		Query q = session.createQuery("from Gruppe where id = :id");
+		Query q = session.createQuery("from Gruppe where id = :gid");
 		q.setParameter("id", id);
 		Gruppe gruppe = (Gruppe) q.uniqueResult();
 		session.getTransaction().commit();

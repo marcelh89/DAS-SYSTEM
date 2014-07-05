@@ -29,6 +29,7 @@ import de.fhb.dassystem.db.entity.Vorlesung;
 import de.fhb.dassystem.db.entity.VorlesungTeilnehmer;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
 import de.fhb.dassystem.login.HibernateUtil;
+import de.fhb.dassystem.valueobject.gruppe.FreundEinladenIn;
 import de.fhb.dassystem.valueobject.kurs.KursAnmeldenIn;
 import de.fhb.dassystem.valueobject.raum.RauminfoIn;
 import de.fhb.dassystem.valueobject.raum.Rauminformation;
@@ -291,12 +292,12 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	}
 
 	@Override
-	public boolean updateGroup(Gruppe gruppe, User newUser) {
+	public boolean updateGroup(FreundEinladenIn freundEinladenIn) {
 
 		boolean success = false;
 
 		// check if goup exist in db
-		Gruppe dbGroup = gDao.findById(gruppe.getGid());
+		Gruppe dbGroup = gDao.findById(freundEinladenIn.getGruppenid());
 
 		// no
 		if (dbGroup == null) {
@@ -304,20 +305,20 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 
 		} else { // yes
 
-//			// find newUser in DB
-//			User dbUser = uDao.findById(newUser.getUid());
-//
-//			if (dbUser == null) {
-//				success = false;
-//			} else {
-//
-//				List<User> users = dbGroup.getUsers();
-//				users.add(dbUser);
-//				dbGroup.setUsers(users);
-//				gDao.update(dbGroup);
-//
+			// find newUser in DB
+			User dbUser = uDao.findById(freundEinladenIn.getUserid());
+
+			if (dbUser == null) {
+				success = false;
+			} else {
+
+				List<User> users = dbGroup.getUsers();
+				users.add(dbUser);
+				dbGroup.setUsers(users);
+				gDao.update(dbGroup);
+
 				success = true;
-//			}
+			}
 
 		}
 
@@ -354,10 +355,11 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	public List<User> getVorlesungTeilnehmer(TeilnehmerIn tin) {
 		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
 		List<User> teilnehmer = new ArrayList<User>();
-		System.out.println(tin.getDatum()+" "+tin.getVorlesungId());
-		try{
-			teilnehmer = vtDao.findTeilnehmerByDateAndVorlesungId(sf.parse(tin.getDatum()), tin.getVorlesungId());
-		}catch(Exception e){
+		System.out.println(tin.getDatum() + " " + tin.getVorlesungId());
+		try {
+			teilnehmer = vtDao.findTeilnehmerByDateAndVorlesungId(
+					sf.parse(tin.getDatum()), tin.getVorlesungId());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return teilnehmer;
@@ -368,9 +370,10 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 		System.out.println("IN Methode");
 		SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy");
 		List<User> teilnehmer = new ArrayList<User>();
-		try{
-			teilnehmer = vtDao.findTeilnehmerByDateAndVorlesungId(sf.parse("05.07.2014"), 1);
-		}catch(Exception e){
+		try {
+			teilnehmer = vtDao.findTeilnehmerByDateAndVorlesungId(
+					sf.parse("05.07.2014"), 1);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return teilnehmer;

@@ -17,6 +17,7 @@ import de.fhb.dassystem.db.entity.User_old;
 import de.fhb.dassystem.db.entity.Vorlesung;
 import de.fhb.dassystem.db.entity.VorlesungTeilnehmer;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
+import de.fhb.dassystem.valueobject.gruppe.FreundEinladenIn;
 import de.fhb.dassystem.valueobject.kurs.KursAnmeldenIn;
 import de.fhb.dassystem.valueobject.raum.RauminfoIn;
 import de.fhb.dassystem.valueobject.raum.Rauminformation;
@@ -49,7 +50,7 @@ public interface IDasSystemRESTAccessor {
 
 	@POST
 	@Path("/gruppe/update")
-	public boolean updateGroup(Gruppe gruppe, User newUser);
+	public boolean updateGroup(FreundEinladenIn freundEinladenIn);
 
 	@POST
 	@Path("/gruppe/delete")
@@ -98,14 +99,12 @@ public interface IDasSystemRESTAccessor {
 	@Path("/vorlesung/update")
 	public Boolean updateVorlesungCode(Vorlesung vorlesung);
 
-	
 	@POST
 	@Path("/vorlesung/teilnehmer")
 	public List<User> getVorlesungTeilnehmer(TeilnehmerIn tin);
-	
+
 	@GET
 	@Path("/vorlesung/teilnehmer/test")
 	public List<User> getVorlesungTeilnehmerTest();
-	
 
 }
