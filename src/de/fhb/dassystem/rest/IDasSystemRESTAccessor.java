@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -36,6 +37,18 @@ public interface IDasSystemRESTAccessor {
 	@GET
 	@Path("/gruppe/all")
 	public List<Gruppe> getGroups();
+
+	@POST
+	@Path("/gruppe/user")
+	public List<Gruppe> getGroups(User user);
+
+	@POST
+	@Path("/gruppe/add")
+	public boolean addGroup(Gruppe gruppe, User currentUser);
+
+	@PUT
+	@Path("/gruppe/update")
+	public boolean updateGroup(Gruppe gruppe, User newUser);
 
 	@POST
 	@Path("/login")

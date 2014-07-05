@@ -34,6 +34,10 @@ INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate
 (1, 'marcelh89@googlemail.com', 'Marcel', 'Hinderlich', '123', '1989-11-10', true);
 INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
 (2, 'sys@tem.com', 'System', 'System', '123', '1989-11-10', false);
+INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
+(3, 'mark@mark.com', 'Mark', 'Marksen', '123', '1989-11-10', false);
+INSERT INTO `user` (`id`, `email`, `forename`, `surname`, `password`, `birthdate`, `dozent`) VALUES
+(4, 'me@myself.com', 'Me', 'Myself', '123', '1989-11-10', false);
 
 -- Vorlesung Tabelle
 CREATE TABLE IF NOT EXISTS Vorlesung (
@@ -73,33 +77,35 @@ CREATE TABLE IF NOT EXISTS VorlesungTeilnehmer (
 
 
 drop table if exists `Gruppe`;
+drop table if exists `Group_User`;
 
 
 CREATE TABLE IF NOT EXISTS `Gruppe` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gid` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   `ispublic` tinyint(1) NOT NULL,
   `uid`		int 		NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`gid`),
   FOREIGN KEY(uid) REFERENCES user(id) on delete no action on update no action
 
  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('global',1, 2);
-INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private1',1, 2);
-INSERT INTO `Gruppe`(`name`, `ispublic`,`uid`) VALUES ('private2',1, 2);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'global',1, 2);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'private1',1, 2);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'private2',1, 2);
+INSERT INTO `Gruppe`(`gid`,`name`, `ispublic`,`uid`) VALUES (NULL,'useradded',1, 1);
 
 
 CREATE TABLE IF NOT EXISTS `Group_User` (
-  `uid` int(11) NOT NULL,
-  `id` int(11) NOT NULL
+  `gid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (1,2);
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (1,1);
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (2,2);
-INSERT INTO `Group_User`(`uid`, `id`) VALUES (3,2);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (1,2);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (2,2);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (3,2);
+INSERT INTO `Group_User`(`gid`, `uid`) VALUES (4,1);
 
 
 
