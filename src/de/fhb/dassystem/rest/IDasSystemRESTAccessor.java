@@ -51,6 +51,10 @@ public interface IDasSystemRESTAccessor {
 	public boolean updateGroup(Gruppe gruppe, User newUser);
 
 	@POST
+	@Path("/gruppe/delete")
+	boolean deleteGroup(Gruppe actGroup);
+
+	@POST
 	@Path("/login")
 	public User_old login(User_old user);
 
@@ -73,10 +77,11 @@ public interface IDasSystemRESTAccessor {
 	@POST
 	@Path("/vorlesung/teilnehmer/anmelden")
 	public Rauminformation anKursAnmelden(KursAnmeldenIn kIn);
-	
+
 	@GET
 	@Path("/vorlesung/{dozentid}")
-	public List<Vorlesung> getVorlesungByDozent(@PathParam("dozentid") int dozentid);
+	public List<Vorlesung> getVorlesungByDozent(
+			@PathParam("dozentid") int dozentid);
 
 	@POST
 	@Path("/rauminfo/")
@@ -85,9 +90,11 @@ public interface IDasSystemRESTAccessor {
 	@GET
 	@Path("/rauminfo/test")
 	public Rauminformation getRauminformation();
+
 	// public List<VorlesungWochentag> getVorlesung();
-	
+
 	@POST
 	@Path("/vorlesung/update")
 	public Boolean updateVorlesungCode(Vorlesung vorlesung);
+
 }

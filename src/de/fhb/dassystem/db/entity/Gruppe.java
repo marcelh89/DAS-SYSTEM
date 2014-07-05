@@ -40,13 +40,13 @@ public class Gruppe implements Serializable {
 	@JoinTable(name = "Group_User", joinColumns = { @JoinColumn(name = "gid") }, inverseJoinColumns = { @JoinColumn(name = "uid") })
 	List<User> users;
 
-//	public Gruppe(String name, boolean isPublic, User creator) {
-//		this.name = name;
-//		this.isPublic = isPublic;
-//		this.creator = creator;
-//		this.users = new ArrayList<User>();
-//		users.add(creator);
-//	}
+	// public Gruppe(String name, boolean isPublic, User creator) {
+	// this.name = name;
+	// this.isPublic = isPublic;
+	// this.creator = creator;
+	// this.users = new ArrayList<User>();
+	// users.add(creator);
+	// }
 
 	public Gruppe() {
 
@@ -96,7 +96,5 @@ public class Gruppe implements Serializable {
 	public void setGid(Integer gid) {
 		this.gid = gid;
 	}
-	
-	
 
 }

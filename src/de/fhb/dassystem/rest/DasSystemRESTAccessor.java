@@ -269,6 +269,27 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	}
 
 	@Override
+	public boolean deleteGroup(Gruppe gruppe) {
+		boolean success = false;
+
+		// check if group already in db
+		Gruppe dbGroup = gDao.findById(gruppe.getGid());
+
+		if (dbGroup == null) {
+			success = false;
+		} else {
+
+			success = true;
+
+			gDao.delete(dbGroup);
+
+		}
+
+		return success;
+
+	}
+
+	@Override
 	public boolean updateGroup(Gruppe gruppe, User newUser) {
 
 		boolean success = false;
