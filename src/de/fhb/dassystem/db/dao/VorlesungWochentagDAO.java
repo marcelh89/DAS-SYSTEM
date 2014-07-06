@@ -58,6 +58,28 @@ public class VorlesungWochentagDAO {
 		return vorlesungWochentag;
 	}
 
+	public VorlesungWochentag findByVorlesungIdAndDate(int vid, Date date) {
+		Calendar day = new GregorianCalendar();
+		day.setTime(date);
+		//Aktuelle Zeit
+		String tag = Wochentag.values()[day.get(Calendar.DAY_OF_WEEK)-1].toString();
+		System.out.println(tag);
+		
+		session.beginTransaction();
+		Query q = session.createQuery("from VorlesungWochentag where wochentag = :tag and vid = :vid");
+		q.setParameter("tag", tag);
+		q.setParameter("vid", vid);
+		List<VorlesungWochentag> vorlesungWochentagList = (List<VorlesungWochentag>)q.list();
+		session.getTransaction().commit();
+		System.out.println(vorlesungWochentagList.size());
+		VorlesungWochentag vorlesungWochentag = null;
+
+		for(VorlesungWochentag vw : vorlesungWochentagList){
+			vorlesungWochentag = vw;
+		}
+		return vorlesungWochentag;
+	}
+	
 	public List<VorlesungWochentag> findAll() {
 		session.beginTransaction();
 		Query q = session.createQuery("from VorlesungWochentag");

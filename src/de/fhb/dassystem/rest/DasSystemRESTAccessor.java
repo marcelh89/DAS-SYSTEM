@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
@@ -174,7 +175,11 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 	@GET
 	@Path("/testuser")
 	public List<User> getUser() {
-		return uDao.findAll();
+		List<User> users =uDao.findAll();
+		for(User u : users){
+			System.out.println(u);
+		}
+		return users;
 	}
 
 	@Override
@@ -193,6 +198,7 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 		try {
 			Vorlesung vorlesung = vDao.findByAnmeldecode(kIn.getAnmeldecode());
 			User user = uDao.findById(kIn.getUserid());
+			VorlesungWochentag vorWoch = vwDao.findByVorlesungIdAndDate(vorlesung.getVid(), sf.parse(kIn.getDatum()));
 			VorlesungTeilnehmer vt = new VorlesungTeilnehmer();
 			vt.setDatum(sf.parse(kIn.getDatum()));
 			vt.setVorlesung(vorlesung);
@@ -200,10 +206,12 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 			rauminfo = new Rauminformation();
 			rauminfo.setName(vorlesung.getName());
 			rauminfo.setInhalt(vorlesung.getInhalt());
+			rauminfo.setRaumNr(vorWoch.getRaumnr());
 			System.out.println(rauminfo);
 			vtDao.create(vt);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			rauminfo = null;
 		}
 		return rauminfo;
 	}
@@ -293,7 +301,7 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 
 	@Override
 	public boolean updateGroup(FreundEinladenIn freundEinladenIn) {
-
+		System.out.println(freundEinladenIn);
 		boolean success = false;
 
 		// check if goup exist in db
@@ -377,6 +385,15 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 			e.printStackTrace();
 		}
 		return teilnehmer;
+	}
+
+	@Override
+	@PUT
+	public void updateLastLocationUser(User user) {
+		System.out.println(user);
+		User dbUser = uDao.findById(user.getUid());
+		dbUser.setLastLocation(user.getLastLocation());
+		uDao.update(dbUser);
 	}
 
 }

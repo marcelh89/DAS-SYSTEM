@@ -26,4 +26,11 @@ public class FreundEinladenIn {
 		this.userid = userid;
 	}
 
+	@Override
+	public String toString() {
+		return "FreundEinladenIn [gruppenid=" + gruppenid + ", userid="
+				+ userid + "]";
+	}
+
+	
 }

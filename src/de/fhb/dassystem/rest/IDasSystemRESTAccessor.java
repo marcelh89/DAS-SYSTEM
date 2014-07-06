@@ -107,4 +107,6 @@ public interface IDasSystemRESTAccessor {
 	@Path("/vorlesung/teilnehmer/test")
 	public List<User> getVorlesungTeilnehmerTest();
 
+	@PUT
+	public void updateLastLocationUser(User user); 
 }
