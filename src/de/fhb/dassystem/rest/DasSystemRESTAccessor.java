@@ -90,9 +90,12 @@ public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 		// uDao = new UserDAO(hibSession);
 		User u = uDao.findByEmail(user.getEmail());
 		System.out.println(u);
-		if (u.getPassword().equals(user.getPassword())) {
-			return u;
+		if(u!=null){
+			if (u.getPassword().equals(user.getPassword())) {
+				return u;
+			}	
 		}
+		
 		return null;
 	}
 
