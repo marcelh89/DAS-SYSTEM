@@ -1,11 +1,7 @@
 package de.fhb.dassystem.db.dao;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -14,8 +10,6 @@ import org.hibernate.Session;
 
 import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.VorlesungTeilnehmer;
-import de.fhb.dassystem.db.entity.VorlesungWochentag;
-import de.fhb.dassystem.valueobject.raum.Wochentag;
 
 public class VorlesungTeilnehmerDAO {
 	protected static Logger logger = Logger.getLogger(VorlesungTeilnehmerDAO.class
@@ -73,6 +67,7 @@ public class VorlesungTeilnehmerDAO {
 		Query q = session.createQuery("from VorlesungTeilnehmer where datum = :date and vid = :vid");
 		q.setParameter("date", date);
 		q.setParameter("vid", vid);
+		@SuppressWarnings("unchecked")
 		List<VorlesungTeilnehmer> vorlesungTeilnehmer = (ArrayList<VorlesungTeilnehmer>) q.list();
 		session.getTransaction().commit();
 		List<User> teilnehmer = new ArrayList<>();

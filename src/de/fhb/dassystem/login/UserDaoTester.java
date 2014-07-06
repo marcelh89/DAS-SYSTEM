@@ -2,16 +2,7 @@ package de.fhb.dassystem.login;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-
-
-import de.fhb.dassystem.db.dao.UserDAO;
-import de.fhb.dassystem.db.dao.VorlesungWochentagDAO;
-import de.fhb.dassystem.db.entity.User;
-import de.fhb.dassystem.db.entity.VorlesungWochentag;
-import de.fhb.dassystem.valueobject.raum.Wochentag;
-
 
 public class UserDaoTester {
 	

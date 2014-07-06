@@ -28,7 +28,9 @@ public class WsChat {
 
 	private Session currentSession;
 
+	@SuppressWarnings("unused")
 	private String currentUserName;
+	@SuppressWarnings("unused")
 	private String currentRoom;
 
 	public WsChat() {

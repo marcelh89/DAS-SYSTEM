@@ -15,6 +15,7 @@ import de.fhb.dassystem.db.entity.User_old;
 public class UserDAO_JDBC extends JdbcDAOBase {
 	protected static Logger logger = Logger.getLogger(UserDAO_JDBC.class.getName());
 
+	@SuppressWarnings("unchecked")
 	public List<User_old> getall() {
 		List<User_old> users;
 
@@ -50,6 +51,7 @@ public class UserDAO_JDBC extends JdbcDAOBase {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<User_old> findByEmail(String email) {
 		List<User_old> vos;
 		Connection con = null;

@@ -38,6 +38,7 @@ import de.fhb.dassystem.valueobject.raum.TeilnehmerIn;
 
 public class DasSystemRESTAccessor implements IDasSystemRESTAccessor {
 
+	@SuppressWarnings("unused")
 	private final static Logger LOGGER = Logger
 			.getLogger(DasSystemRESTAccessor.class.getName());
 	private UserDAO_JDBC ud = new UserDAO_JDBC();

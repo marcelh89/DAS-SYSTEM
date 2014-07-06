@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import de.fhb.dassystem.db.entity.User;
 import de.fhb.dassystem.db.entity.VorlesungWochentag;
 import de.fhb.dassystem.valueobject.raum.Wochentag;
 
@@ -69,6 +68,7 @@ public class VorlesungWochentagDAO {
 		Query q = session.createQuery("from VorlesungWochentag where wochentag = :tag and vid = :vid");
 		q.setParameter("tag", tag);
 		q.setParameter("vid", vid);
+		@SuppressWarnings("unchecked")
 		List<VorlesungWochentag> vorlesungWochentagList = (List<VorlesungWochentag>)q.list();
 		session.getTransaction().commit();
 		System.out.println(vorlesungWochentagList.size());
@@ -103,6 +103,7 @@ public class VorlesungWochentagDAO {
 		Query q = session.createQuery("from VorlesungWochentag where wochentag = :tag and raumnr = :raumNr");
 		q.setParameter("tag", tag);
 		q.setParameter("raumNr", raumNr);
+		@SuppressWarnings("unchecked")
 		List<VorlesungWochentag> vorlesungWochentagList = (List<VorlesungWochentag>)q.list();
 		session.getTransaction().commit();
 		System.out.println(vorlesungWochentagList.size());

@@ -37,6 +37,7 @@ public abstract class JdbcDAOBase {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected List transformSet(ResultSet rs) throws SQLException {
 		List voList = new LinkedList();
 		Object vo;
@@ -47,6 +48,7 @@ public abstract class JdbcDAOBase {
 		return voList;
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected Object transformSetToVO(ResultSet rs) throws SQLException, DataAccessException {
 		List voList;
 		voList = transformSet(rs);
