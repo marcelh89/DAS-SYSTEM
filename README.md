@@ -20,7 +20,7 @@ Tech
 * verwendet Tomcat Server v7
 * Java 1.7
 * Websockets
-* Jersey Web Service
+* resteasy webService
 * Maven Build Tool
 
 Installation
